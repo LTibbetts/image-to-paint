@@ -12,6 +12,10 @@ import javax.swing.JLabel;
 import image2paint.controller.ImageController;
 import image2paint.image.MyImage;
 
+/**
+ * An extension of a JLable that has built in mouse listeners and image
+ * displays.
+ */
 public class ImageLabel extends JLabel implements MouseListener, MouseMotionListener {
 
   /** Serializable ID */
@@ -79,12 +83,9 @@ public class ImageLabel extends JLabel implements MouseListener, MouseMotionList
   // Public Methods
   ///////////////////
 
-  public void changeImage(MyImage image) {
-    this.image = image;
-    super.setIcon(image.getImageIcon());
-    // super.
-  }
-
+  /**
+   * Updates the image if it is a destination image.
+   */
   private void updateImage() {
     if (!isSource) {
       image = new MyImage(imageController.getDestinationImage());
@@ -100,6 +101,7 @@ public class ImageLabel extends JLabel implements MouseListener, MouseMotionList
 
   @Override
   public void mouseClicked(MouseEvent e) {
+    // Use the image controller to add a stroke to the destination image
     if (imageController.getSourceImage().equals(image)) {
       imageController.addStroke(e.getX(), e.getY());
       // System.out.println("X: " + e.getX() + ", Y: " + e.getY());
@@ -109,6 +111,7 @@ public class ImageLabel extends JLabel implements MouseListener, MouseMotionList
 
   @Override
   public void mouseDragged(MouseEvent e) {
+    // Use the image controller to add a stroke to the destination image
     if (imageController.getSourceImage().equals(image)) {
       imageController.addStroke(e.getX(), e.getY());
       // System.out.println("X: " + e.getX() + ", Y: " + e.getY());

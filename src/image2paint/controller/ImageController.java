@@ -3,9 +3,11 @@ package image2paint.controller;
 import java.util.ArrayList;
 
 import image2paint.alterations.Stroke;
-import image2paint.alterations.StrokeProperties;
 import image2paint.image.MyImage;
 
+/**
+ * Used to link multiple aspects of the UI controls together.
+ */
 public class ImageController {
   /** Source MyImage */
   private MyImage sourceImage;
@@ -19,6 +21,10 @@ public class ImageController {
   /** ArrayList for stored changes */
   private ArrayList<Stroke> strokeList;
 
+  /**
+   * Constructor. Links the left and right images and the stroke controls to a
+   * central object
+   */
   public ImageController(MyImage sourceImage, MyImage destinationImage, Stroke currentStroke) {
     this.sourceImage = sourceImage;
     this.destinationImage = destinationImage;
@@ -30,6 +36,9 @@ public class ImageController {
   // Public Methods
   ///////////////////
 
+  /**
+   * Adds a stroke of type currentStroke to the given x and y coordinates.
+   */
   public void addStroke(int x, int y) {
     currentStroke.setX(x);
     currentStroke.setY(y);
@@ -41,34 +50,29 @@ public class ImageController {
   // Private Methods
   ////////////////////
 
+  /**
+   * Reflects the requested changes to the destination picture.
+   */
   private void updateDestination() {
     if (!strokeList.isEmpty()) {
       int x = currentStroke.getX();
       int y = currentStroke.getY();
-      // StrokeProperties lastStrokeProperties = lastStroke.getStrokeProperties();
-      
+
       // Stores the points to draw on
       ArrayList<Integer> xPoints = new ArrayList<Integer>();
       ArrayList<Integer> yPoints = new ArrayList<Integer>();
 
+      // Populates the passed arraylist with point values.
       currentStroke.getPointsForStroke(xPoints, yPoints);
 
-      // Properties
-      // int length = 10; //lastStrokeProperties.getStrokeLength();
-      // int width = 5; //lastStrokeProperties.getStrokeWidth();
-      // int angle = 45; lastStrokeProperties.getStrokeAngle();
-
-      // Calculate the points
-      // xPoints.add(x + (int)(length / 2 * Math.cos(Math.toRadians(angle))));
-      // yPoints.add(y + (int)(length / 2 * Math.sin(Math.toRadians(angle))));
-      // xPoints.add(x - (int)(length / 2 * Math.cos(Math.toRadians(angle))));
-      // yPoints.add(y - (int)(length / 2 * Math.sin(Math.toRadians(angle))));
-
-      //System.out.println();
-
+      // Get the color of the currently selected pixel.
       Integer rgb = sourceImage.getRGB(x, y);
+
+      // If it is valid
       if (rgb != null) {
-        for(int i = 0; i < xPoints.size() && i < yPoints.size(); ++i){
+
+        // Draw the points that were calculated.
+        for (int i = 0; i < xPoints.size() && i < yPoints.size(); ++i) {
           destinationImage.setRGB(xPoints.get(i), yPoints.get(i), Integer.valueOf(rgb));
         }
       }

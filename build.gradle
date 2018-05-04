@@ -1,12 +1,12 @@
 //******************************************************************************
 // Copyright (C) 2016 University of Oklahoma Board of Trustees.
 //******************************************************************************
-// Last modified: Tue March  6 23:48:25 2018 by Logan Tibbetts
+// Last modified: Thursday May  4 02:09:00 2018 by Logan Tibbetts
 //******************************************************************************
 // Major Modification History:
 //
 // 20160209 [weaver]:	Original file.
-// 20180306 [logan]: Changed to fit class project structure
+// 20180501 [logan]: Adopted Heavily to complete in class project.
 //
 //******************************************************************************
 // Notes:
@@ -16,40 +16,11 @@
 // 2. Run "gradle installDist"
 //
 // To run on the command line
-// 1. Go to directory build/install/graphics/bin
-// 2. Run the script for the class you want (./foo or double-click the icon).
-//
-//******************************************************************************
-// COMMANDS:
-//
-// See all available tasks in the terminal, or in a window:
-// gradle -q tasks --all
-// gradle --gui
-//
-// Scrub all build results (doesn't remove .gradle cache in home directory):
-// gradle clean
-//
-// Generate javadoc for all subprojects:
-// gradle javadoc
-//
-// Bundle into command line applications, or a zip file containing them:
-// gradle installDist
-// gradle distZip
-//
-//******************************************************************************
-
-buildscript
-{
-	repositories
-	{
-		mavenCentral()
-	}
-}
-
+// 1. Go to directory build/install/image2paint/bin
+// 2. Run the script for your operating system
 //******************************************************************************
 
 apply plugin: 'java'
-apply plugin: 'maven'
 apply plugin: 'application'
 apply plugin: 'eclipse'
 
@@ -101,22 +72,8 @@ def altJvmArgs = ['-Xms128m', '-Xmx768m', '-noclassgc',\
  '-Dapple.awt.showGrowBox=true', '-Dapple.awt.brushMetalLook=false',\
  '-Dapple.awt.antialiasing=on', '-Dapple.awt.graphics.UseQuartz=true', ]
 
-// Create scripts for alternate entry points (main() methods)
-// createScript(project, 'edu.ou.cs.cg.example.Gasket', 'gasket', altJvmArgs)
-// createScript(project, 'edu.ou.cs.cg.example.Lorenz', 'lorenz', altJvmArgs)
-// createScript(project, 'edu.ou.cs.cg.example.Template', 'template', altJvmArgs)
-// createScript(project, 'edu.ou.cs.cg.example.Viewport', 'viewport', altJvmArgs)
-// createScript(project, 'edu.ou.cs.cg.homework.Homework02Chris', 'hw02-chris', altJvmArgs)
 createScript(project, 'image2paint.Application', 'image2paint', altJvmArgs)
-// createScript(project, 'edu.ou.cs.cg.interaction.Network', 'network-test', altJvmArgs)
 
-// You'll need to add more of these for future assignments. For each one, put
-// the fully qualified classname of the class with main() in the second argument
-// and the desired program name in the third argument.
-// createScript(project, 'edu.ou.cs.cg.homework.Homework02', 'hw02', altJvmArgs)
-//createScript(project, 'edu.ou.cs.cg.homework.Homework03', 'hw03', altJvmArgs)
-//createScript(project, 'edu.ou.cs.cg.homework.Homework04', 'hw04', altJvmArgs)
-//createScript(project, 'edu.ou.cs.cg.homework.Homework05', 'hw05', altJvmArgs)
 
 //******************************************************************************
 // Source Sets
@@ -148,7 +105,7 @@ jar
     manifest
     {
         attributes\
-        	'Implementation-Title': 'ou-cs-cg',\
+        	'Implementation-Title': 'image2paint',\
 			'Implementation-Version': version,\
 			'Main-Class': mainClassName
 
@@ -172,33 +129,7 @@ startScripts
 	{
 		// Windows script file
 		def wsf = file getWindowsScript()
-		//wsf.text = wsf.text.replace("-Xms1g", "-Xms256m")
-		//wsf.text = wsf.text.replace("-Xmx2g", "-Xmx1280m")
 	}
-}
-
-//******************************************************************************
-// Dependencies
-//******************************************************************************
-
-repositories
-{
-	mavenLocal()
-	mavenCentral()
-}
-
-dependencies
-{
-	//**********************************************************************
-	// REMOTE
-	//**********************************************************************
-
-	//runtime ('colt:colt:1.2.0') { transitive = false }
-
-	//runtime ('com.vividsolutions:jts:1.13') { transitive = false }
-
-	compile ('org.jogamp.jogl:jogl-all-main:2.1.5-01') { transitive = true }
-	compile ('org.jogamp.gluegen:gluegen-rt-main:2.1.5-01') { transitive = true }
 }
 
 //******************************************************************************

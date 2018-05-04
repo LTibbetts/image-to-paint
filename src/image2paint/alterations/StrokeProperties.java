@@ -1,5 +1,8 @@
 package image2paint.alterations;
 
+/**
+ * Stores the properties that the Stroke.java class can have.
+ */
 public class StrokeProperties {
   private int strokeLength;
   private int strokeWidth;

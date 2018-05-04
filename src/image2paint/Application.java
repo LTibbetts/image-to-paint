@@ -1,7 +1,6 @@
 package image2paint;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +11,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
-import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -25,8 +23,8 @@ import image2paint.view.ImageLabel;
 public class Application {
 
   /**
-   * Create the GUI and show it. For thread safety, this method should be invoked
-   * from the event-dispatching thread.
+   * Creates the GUI for the Application. Uses a BorderLayout and nested panels
+   * for controls.
    */
   private static void createAndShowGUI() {
     // Create and set up the window.
@@ -40,12 +38,11 @@ public class Application {
     Stroke currentStroke = new Stroke(0, 0);
 
     // Two Image Views
-    MyImage imageTest = new MyImage("results.png");
+    MyImage imageTest = new MyImage("cat.png");
     MyImage imageTest2 = new MyImage(imageTest, true);
     ImageController imageController = new ImageController(imageTest, imageTest2, currentStroke);
     ImageLabel imageLabel = new ImageLabel(imageTest, imageController);
     ImageLabel imageLabel2 = new ImageLabel(imageTest2, imageController);
-
 
     /** Begin JPanel for Controls */
     JPanel controlPanel = new JPanel();
@@ -57,22 +54,25 @@ public class Application {
 
     JLabel strokeLengthSliderLabel = new JLabel("Stroke Length (px)");
     strokeLengthSliderLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-    JSlider strokeLengthSlider = new JSlider(0, (int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25);
-    strokeLengthSlider.addChangeListener(new ChangeListener(){
-    
+    JSlider strokeLengthSlider = new JSlider(0,
+        (int) (Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25);
+    strokeLengthSlider.addChangeListener(new ChangeListener() {
+
       @Override
       public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
-        if(!source.getValueIsAdjusting()){
-          int value = (int)source.getValue();
+        JSlider source = (JSlider) e.getSource();
+        if (!source.getValueIsAdjusting()) {
+          int value = (int) source.getValue();
           StrokeProperties strokeProperties = currentStroke.getStrokeProperties();
           strokeProperties.setStrokeLength(value);
         }
       }
     });
     strokeLengthSlider.setValue(10);
-    strokeLengthSlider.setMajorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25 / 2);
-    strokeLengthSlider.setMinorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25 / 4);
+    strokeLengthSlider.setMajorTickSpacing(
+        (int) (Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25 / 2);
+    strokeLengthSlider.setMinorTickSpacing(
+        (int) (Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25 / 4);
     strokeLengthSlider.setPaintTicks(true);
     strokeLengthSlider.setPaintLabels(true);
 
@@ -85,28 +85,30 @@ public class Application {
 
     JLabel strokeWidthSliderLabel = new JLabel("Stroke Width (px)");
     strokeWidthSliderLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-    JSlider strokeWidthSlider = new JSlider(0, (int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25));
-    strokeWidthSlider.addChangeListener(new ChangeListener(){
-    
+    JSlider strokeWidthSlider = new JSlider(0,
+        (int) (Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25));
+    strokeWidthSlider.addChangeListener(new ChangeListener() {
+
       @Override
       public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
-        if(!source.getValueIsAdjusting()){
-          int value = (int)source.getValue();
+        JSlider source = (JSlider) e.getSource();
+        if (!source.getValueIsAdjusting()) {
+          int value = (int) source.getValue();
           StrokeProperties strokeProperties = currentStroke.getStrokeProperties();
           strokeProperties.setStrokeWidth(value);
         }
       }
     });
     strokeWidthSlider.setValue(5);
-    strokeWidthSlider.setMajorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25) / 2);
-    strokeWidthSlider.setMinorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25) / 4);
+    strokeWidthSlider.setMajorTickSpacing(
+        (int) (Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25) / 2);
+    strokeWidthSlider.setMinorTickSpacing(
+        (int) (Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25) / 4);
     strokeWidthSlider.setPaintTicks(true);
     strokeWidthSlider.setPaintLabels(true);
-    
     strokeWidthPanel.add(strokeWidthSliderLabel);
     strokeWidthPanel.add(strokeWidthSlider);
-    
+
     // Stroke Angle
     JPanel strokeAnglePanel = new JPanel();
     strokeAnglePanel.setLayout(new BoxLayout(strokeAnglePanel, BoxLayout.Y_AXIS));
@@ -114,13 +116,13 @@ public class Application {
     JLabel strokeAngleSliderLabel = new JLabel("Stroke Angle (deg)");
     strokeAngleSliderLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
     JSlider strokeAngleSlider = new JSlider(0, 180);
-    strokeAngleSlider.addChangeListener(new ChangeListener(){
-    
+    strokeAngleSlider.addChangeListener(new ChangeListener() {
+
       @Override
       public void stateChanged(ChangeEvent e) {
-        JSlider source = (JSlider)e.getSource();
-        if(!source.getValueIsAdjusting()){
-          int value = (int)source.getValue();
+        JSlider source = (JSlider) e.getSource();
+        if (!source.getValueIsAdjusting()) {
+          int value = (int) source.getValue();
           StrokeProperties strokeProperties = currentStroke.getStrokeProperties();
           strokeProperties.setStrokeAngle(value);
         }
@@ -134,7 +136,6 @@ public class Application {
 
     strokeAnglePanel.add(strokeAngleSliderLabel);
     strokeAnglePanel.add(strokeAngleSlider);
-
 
     JButton saveButton = new JButton("Save");
     saveButton.addActionListener(new ActionListener() {
@@ -151,18 +152,18 @@ public class Application {
     controlPanel.add(saveButton);
     /** End JPanel for Controls */
 
+
+    /** Add images and controls to BorderLayout */
     frame.add(imageLabel, BorderLayout.WEST);
     frame.add(imageLabel2, BorderLayout.CENTER);
     frame.add(controlPanel, BorderLayout.EAST);
 
-    // frame.getContentPane().add(label);
-
     // Display the window.
     frame.pack();
     frame.setVisible(true);
-
   }
 
+  /** main */
   public static void main(String[] args) {
     createAndShowGUI();
   }

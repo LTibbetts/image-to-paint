@@ -19,8 +19,13 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class MyImage {
+  /** Width of the Image */
   private int width;
+
+  /** Height of the Image */
   private int height;
+
+  /** BufferedImage that holds the read in file, or new file */
   BufferedImage image;
 
   /** Main constructor */
@@ -28,10 +33,12 @@ public class MyImage {
 
     // read image
     try {
+      // Get file from resource folder specified in build.gradle
       InputStream imageIn = ClassLoader.getSystemClassLoader().getResourceAsStream(filePath);
-      // file = new File(fileURL.toURI()); // image file path
-      // image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+
+      // Load the file
       image = ImageIO.read(imageIn);
+
       System.out.println("Reading complete.");
     } catch (IOException e) {
       System.out.println("Failed to load the image at: " + filePath);
@@ -39,25 +46,28 @@ public class MyImage {
       return;
     }
 
-    width = image.getWidth();
-    height = image.getHeight();
+    this.width = image.getWidth();
+    this.height = image.getHeight();
   }
 
-  /** Copy Constructor */
+  /** Copy Constructor. Maintains the copied picture.*/
   public MyImage(MyImage myImage) {
     this.width = myImage.width;
     this.height = myImage.height;
     this.image = bufferedImageDeepCopy(myImage.image);
   }
 
-  /** Copy Constructor */
+  /**
+   * Copy Constructor. If a value of true is provided then the image will be set
+   * to a solid background
+   */
   public MyImage(MyImage myImage, boolean reset) {
     this.width = myImage.width;
     this.height = myImage.height;
     this.image = bufferedImageDeepCopy(myImage.image);
-    if(reset){
-      for(int i = 0 ; i < width; i++){
-        for(int j = 0; j < height; j++){
+    if (reset) {
+      for (int i = 0; i < width; i++) {
+        for (int j = 0; j < height; j++) {
           setRGB(i, j, 0);
         }
       }
@@ -68,8 +78,8 @@ public class MyImage {
   // Public Methods
   ///////////////////
 
+  /** Writes the image to the filename specified. build.gradle install path */
   public void saveImage(String filename) {
-
     // write image
     try {
       File file = new File(filename); // output file path
@@ -84,6 +94,7 @@ public class MyImage {
   ////////////////////
   // Getters Setters
   ////////////////////
+
   public int getWidth() {
     return this.width;
   }
