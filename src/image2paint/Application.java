@@ -30,7 +30,7 @@ public class Application {
    */
   private static void createAndShowGUI() {
     // Create and set up the window.
-    JFrame frame = new JFrame("HelloWorldSwing");
+    JFrame frame = new JFrame("Image2Paint");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     // Setup layout manager
@@ -40,8 +40,8 @@ public class Application {
     Stroke currentStroke = new Stroke(0, 0);
 
     // Two Image Views
-    MyImage imageTest = new MyImage("test.png");
-    MyImage imageTest2 = new MyImage("test2.png");
+    MyImage imageTest = new MyImage("results.png");
+    MyImage imageTest2 = new MyImage(imageTest, true);
     ImageController imageController = new ImageController(imageTest, imageTest2, currentStroke);
     ImageLabel imageLabel = new ImageLabel(imageTest, imageController);
     ImageLabel imageLabel2 = new ImageLabel(imageTest2, imageController);
@@ -57,7 +57,7 @@ public class Application {
 
     JLabel strokeLengthSliderLabel = new JLabel("Stroke Length (px)");
     strokeLengthSliderLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-    JSlider strokeLengthSlider = new JSlider(0, (int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))));
+    JSlider strokeLengthSlider = new JSlider(0, (int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25);
     strokeLengthSlider.addChangeListener(new ChangeListener(){
     
       @Override
@@ -71,8 +71,8 @@ public class Application {
       }
     });
     strokeLengthSlider.setValue(10);
-    strokeLengthSlider.setMajorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 2);
-    strokeLengthSlider.setMinorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 4);
+    strokeLengthSlider.setMajorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25 / 2);
+    strokeLengthSlider.setMinorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 25 / 4);
     strokeLengthSlider.setPaintTicks(true);
     strokeLengthSlider.setPaintLabels(true);
 
@@ -85,7 +85,7 @@ public class Application {
 
     JLabel strokeWidthSliderLabel = new JLabel("Stroke Width (px)");
     strokeWidthSliderLabel.setAlignmentX(JLabel.CENTER_ALIGNMENT);
-    JSlider strokeWidthSlider = new JSlider(0, (int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))));
+    JSlider strokeWidthSlider = new JSlider(0, (int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25));
     strokeWidthSlider.addChangeListener(new ChangeListener(){
     
       @Override
@@ -98,9 +98,9 @@ public class Application {
         }
       }
     });
-    strokeWidthSlider.setValue(10);
-    strokeWidthSlider.setMajorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 2);
-    strokeWidthSlider.setMinorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2))) / 4);
+    strokeWidthSlider.setValue(5);
+    strokeWidthSlider.setMajorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25) / 2);
+    strokeWidthSlider.setMinorTickSpacing((int)(Math.sqrt(Math.pow(imageTest.getWidth(), 2) + Math.pow(imageTest.getHeight(), 2)) / 25) / 4);
     strokeWidthSlider.setPaintTicks(true);
     strokeWidthSlider.setPaintLabels(true);
     

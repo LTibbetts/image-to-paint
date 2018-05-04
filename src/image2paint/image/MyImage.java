@@ -50,6 +50,20 @@ public class MyImage {
     this.image = bufferedImageDeepCopy(myImage.image);
   }
 
+  /** Copy Constructor */
+  public MyImage(MyImage myImage, boolean reset) {
+    this.width = myImage.width;
+    this.height = myImage.height;
+    this.image = bufferedImageDeepCopy(myImage.image);
+    if(reset){
+      for(int i = 0 ; i < width; i++){
+        for(int j = 0; j < height; j++){
+          setRGB(i, j, 0);
+        }
+      }
+    }
+  }
+
   ///////////////////
   // Public Methods
   ///////////////////
