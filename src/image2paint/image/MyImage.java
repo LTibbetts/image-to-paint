@@ -8,27 +8,30 @@
 
 package image2paint.image;
 
-import java.io.File;
-import java.io.IOException;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 public class MyImage {
   private int width;
   private int height;
   BufferedImage image;
-  File file;
 
   /** Main constructor */
-  public MyImage(String filePath) throws IOException {
+  public MyImage(String filePath) {
+
     // read image
     try {
-      file = new File(filePath); // image file path
+      InputStream imageIn = ClassLoader.getSystemClassLoader().getResourceAsStream(filePath);
+      // file = new File(fileURL.toURI()); // image file path
       // image = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-      image = ImageIO.read(file);
+      image = ImageIO.read(imageIn);
       System.out.println("Reading complete.");
     } catch (IOException e) {
       System.out.println("Failed to load the image at: " + filePath);
@@ -45,12 +48,56 @@ public class MyImage {
     this.width = myImage.width;
     this.height = myImage.height;
     this.image = bufferedImageDeepCopy(myImage.image);
-    this.file = myImage.file.getAbsoluteFile();
   }
 
+  ///////////////////
+  // Public Methods
+  ///////////////////
+
+  public void saveImage(String filename) {
+
+    // write image
+    try {
+      File file = new File(filename); // output file path
+      System.out.println("Saved file to: " + file.getAbsolutePath());
+      ImageIO.write(image, "png", file);
+      System.out.println("Writing complete.");
+    } catch (IOException e) {
+      System.out.println("Error: " + e);
+    }
+  }
+
+  ////////////////////
+  // Getters Setters
+  ////////////////////
+  public int getWidth() {
+    return this.width;
+  }
+
+  public int getHeight() {
+    return this.height;
+  }
+
+  public Integer getRGB(int x, int y) {
+    if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+      return image.getRGB(x, y);
+    }
+
+    return null;
+  }
+
+  public void setRGB(int x, int y, int rgb) {
+    if (x >= 0 && x < this.width && y >= 0 && y < this.height) {
+      image.setRGB(x, y, rgb);
+    }
+  }
+
+  public ImageIcon getImageIcon() {
+    return new ImageIcon(image);
+  }
 
   ///////////////////////////
-  // private static methods
+  // Private Static Methods
   ///////////////////////////
 
   /** Creates a deepCopy of a Buffered Image */
@@ -61,12 +108,3 @@ public class MyImage {
     return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
   }
 }
-
-// // write image
-// try {
-// file = new File("D:\\Image\\Output.jpg"); // output file path
-// ImageIO.write(image, "jpg", file);
-// System.out.println("Writing complete.");
-// } catch (IOException e) {
-// System.out.println("Error: " + e);
-// }
